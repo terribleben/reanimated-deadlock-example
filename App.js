@@ -1,112 +1,57 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import type {Node} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { BottomSheet } from './BottomSheet';
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  header: {
+    height: 64,
+    backgroundColor: '#f00',
+    alignItems: 'center',
+    padding: 16,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  body: {
+    backgroundColor: '#0f0',
+    padding: 16,
   },
 });
+
+const SheetHeader = () => (
+  <View style={styles.header}>
+    <Text>Drag me</Text>
+  </View>
+);
+
+const SheetBody = () => (
+  <View style={styles.body}>
+    <Text>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque fermentum dui faucibus in. Elit ut aliquam purus sit amet luctus venenatis. Vulputate sapien nec sagittis aliquam. Odio eu feugiat pretium nibh. Feugiat scelerisque varius morbi enim nunc faucibus. Et odio pellentesque diam volutpat commodo sed egestas. Ac orci phasellus egestas tellus rutrum tellus. Cursus metus aliquam eleifend mi. Morbi leo urna molestie at. Amet nisl purus in mollis nunc. Rhoncus urna neque viverra justo nec ultrices dui sapien eget. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Dui accumsan sit amet nulla facilisi morbi tempus.
+    </Text>
+    <Text>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque fermentum dui faucibus in. Elit ut aliquam purus sit amet luctus venenatis. Vulputate sapien nec sagittis aliquam. Odio eu feugiat pretium nibh. Feugiat scelerisque varius morbi enim nunc faucibus. Et odio pellentesque diam volutpat commodo sed egestas. Ac orci phasellus egestas tellus rutrum tellus. Cursus metus aliquam eleifend mi. Morbi leo urna molestie at. Amet nisl purus in mollis nunc. Rhoncus urna neque viverra justo nec ultrices dui sapien eget. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Dui accumsan sit amet nulla facilisi morbi tempus.
+    </Text>
+  </View>
+);
+
+const App = () => {
+  const [isOpen, _] = React.useState(true);
+  return (
+    <SafeAreaProvider>
+      <View style={{ flex: 1 }}>
+        <BottomSheet
+          isOpen={isOpen}
+          snapPoints={[100, 400]}
+          renderHeader={() => <SheetHeader />}
+          renderContent={() => <SheetBody />}
+        />
+      </View>
+    </SafeAreaProvider>
+  );
+}
 
 export default App;
