@@ -14,6 +14,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useKeyboard } from './useKeyboard';
 
 const EASING_CONFIG = {
   duration: 250,
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
 });
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+const TEXT_INPUT_HEIGHT = 48; // approx height of one text input
 
 export const BottomSheet = ({
   isOpen = false,
@@ -42,6 +44,7 @@ export const BottomSheet = ({
   initialSnap = 0,
   renderHeader = () => null,
   renderContent = () => null,
+  headerHeight = 64,
   contentKey = 'content',
   scrollViewRef = null,
   onClose,
@@ -52,6 +55,7 @@ export const BottomSheet = ({
 }) => {
   const insets = useSafeAreaInsets();
   let lastSnap = React.useRef(initialSnap);
+  const [keyboardState] = useKeyboard();
 
   // translation from bottom of the screen
   let snapY = useSharedValue(SCREEN_HEIGHT);
@@ -90,6 +94,7 @@ export const BottomSheet = ({
     [snapY, containerHeight, setContainerHeight, onSnapToAnimationFinished]
   );
 
+  // given some y, find the closest snap point and go there
   const snapToClosest = React.useCallback(
     (y, velocity) => {
       let minDist = 9999,
@@ -120,6 +125,7 @@ export const BottomSheet = ({
     [snapTo, snapPoints, onSnap, isOpen]
   );
 
+  // open and close the sheet from `isOpen`
   React.useEffect(() => {
     if (isOpen) {
       snapTo(SCREEN_HEIGHT - snapPoints[lastSnap.current], 0, onOpenEnd);
@@ -131,6 +137,7 @@ export const BottomSheet = ({
     }
   }, [isOpen, onOpenEnd, onCloseEnd, onSnap, snapPoints, snapTo]);
 
+  // drag gesture for sheet header
   const panGesture = Gesture.Pan()
     .onStart((e) => {
       gestureInitialY.value = e.absoluteY - e.y;
@@ -144,6 +151,20 @@ export const BottomSheet = ({
       runOnJS(snapToClosest)(absoluteY, velocityY);
     });
 
+  // expand sheet to avoid keyboard
+  React.useEffect(() => {
+    if (
+      isOpen &&
+      keyboardState.visible &&
+      containerHeight < keyboardState.height + headerHeight + TEXT_INPUT_HEIGHT
+    ) {
+      snapToClosest(
+        SCREEN_HEIGHT - containerHeight - keyboardState.height - headerHeight - TEXT_INPUT_HEIGHT,
+        0
+      );
+    }
+  }, [keyboardState, isOpen, snapToClosest, headerHeight]);
+  
   return (
     <Animated.View style={[styles.container, style, animatedTopYStyle]}>
       <GestureDetector gesture={panGesture}>
