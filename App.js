@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -9,6 +10,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { BottomSheet } from './BottomSheet';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   header: {
     height: 64,
     backgroundColor: '#f00',
@@ -45,13 +51,16 @@ const SheetBody = ({ numParagraphs = 4 }) => {
 }
 
 const App = () => {
-  const [isOpen, _] = React.useState(true);
+  const [isOpen, toggleIsOpen] = React.useReducer((state) => (!state), false);
   return (
     <SafeAreaProvider>
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Pressable onPress={toggleIsOpen}>
+          <Text>Open/close sheet</Text>
+        </Pressable>
         <BottomSheet
           isOpen={isOpen}
-          snapPoints={[100, 400]}
+          snapPoints={[100, 400, 700]}
           renderHeader={() => <SheetHeader />}
           renderContent={() => <SheetBody />}
         />

@@ -47,7 +47,6 @@ export const BottomSheet = ({
   headerHeight = 64,
   contentKey = 'content',
   scrollViewRef = null,
-  onClose,
   onCloseEnd,
   onOpenEnd,
   onSnap,
