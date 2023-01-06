@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#0f0',
     padding: 16,
   },
+  paragraph: {
+    marginBottom: 16,
+  },
 });
 
 const SheetHeader = () => (
@@ -27,16 +30,19 @@ const SheetHeader = () => (
   </View>
 );
 
-const SheetBody = () => (
-  <View style={styles.body}>
-    <Text>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque fermentum dui faucibus in. Elit ut aliquam purus sit amet luctus venenatis. Vulputate sapien nec sagittis aliquam. Odio eu feugiat pretium nibh. Feugiat scelerisque varius morbi enim nunc faucibus. Et odio pellentesque diam volutpat commodo sed egestas. Ac orci phasellus egestas tellus rutrum tellus. Cursus metus aliquam eleifend mi. Morbi leo urna molestie at. Amet nisl purus in mollis nunc. Rhoncus urna neque viverra justo nec ultrices dui sapien eget. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Dui accumsan sit amet nulla facilisi morbi tempus.
-    </Text>
-    <Text>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque fermentum dui faucibus in. Elit ut aliquam purus sit amet luctus venenatis. Vulputate sapien nec sagittis aliquam. Odio eu feugiat pretium nibh. Feugiat scelerisque varius morbi enim nunc faucibus. Et odio pellentesque diam volutpat commodo sed egestas. Ac orci phasellus egestas tellus rutrum tellus. Cursus metus aliquam eleifend mi. Morbi leo urna molestie at. Amet nisl purus in mollis nunc. Rhoncus urna neque viverra justo nec ultrices dui sapien eget. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Dui accumsan sit amet nulla facilisi morbi tempus.
-    </Text>
-  </View>
-);
+// set `numParagraphs` to a large number to cause an expensive render
+const SheetBody = ({ numParagraphs = 4 }) => {
+  const p = Array(numParagraphs).fill(0);
+  return (
+    <View style={styles.body}>
+      {p.map((_, ii) => (
+        <Text key={ii} style={styles.paragraph}>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque fermentum dui faucibus in. Elit ut aliquam purus sit amet luctus venenatis. Vulputate sapien nec sagittis aliquam. Odio eu feugiat pretium nibh. Feugiat scelerisque varius morbi enim nunc faucibus. Et odio pellentesque diam volutpat commodo sed egestas. Ac orci phasellus egestas tellus rutrum tellus. Cursus metus aliquam eleifend mi. Morbi leo urna molestie at. Amet nisl purus in mollis nunc. Rhoncus urna neque viverra justo nec ultrices dui sapien eget. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Dui accumsan sit amet nulla facilisi morbi tempus.
+        </Text>
+      ))}
+    </View>
+  );
+}
 
 const App = () => {
   const [isOpen, _] = React.useState(true);
