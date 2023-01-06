@@ -25,6 +25,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#0f0',
     padding: 16,
   },
+  button: {
+    borderWidth: 1,
+    borderRadius: 6,
+    backgroundColor: '#fff',
+    borderColor: '#000',
+    padding: 8,
+    marginBottom: 8,
+  },
   paragraph: {
     marginBottom: 16,
   },
@@ -37,10 +45,18 @@ const SheetHeader = () => (
 );
 
 // set `numParagraphs` to a large number to cause an expensive render
-const SheetBody = ({ numParagraphs = 4 }) => {
+const SheetBody = () => {
+  const [numParagraphs, setRandomNumParagraphs] = React.useReducer(
+    (state) => Math.floor(Math.random() * 999),
+    4
+  );
   const p = Array(numParagraphs).fill(0);
+  
   return (
     <View style={styles.body}>
+      <Pressable onPress={setRandomNumParagraphs} style={styles.button}>
+        <Text>Render random number of paragraphs</Text>
+      </Pressable>
       {p.map((_, ii) => (
         <Text key={ii} style={styles.paragraph}>
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Scelerisque fermentum dui faucibus in. Elit ut aliquam purus sit amet luctus venenatis. Vulputate sapien nec sagittis aliquam. Odio eu feugiat pretium nibh. Feugiat scelerisque varius morbi enim nunc faucibus. Et odio pellentesque diam volutpat commodo sed egestas. Ac orci phasellus egestas tellus rutrum tellus. Cursus metus aliquam eleifend mi. Morbi leo urna molestie at. Amet nisl purus in mollis nunc. Rhoncus urna neque viverra justo nec ultrices dui sapien eget. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Dui accumsan sit amet nulla facilisi morbi tempus.
